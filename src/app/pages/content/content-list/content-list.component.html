@@ -1,0 +1,32 @@
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Content List</h2>
+    <button class="btn btn-primary" [routerLink]="['/content/add-content']" style="background-color: #3dc2ec;">
+      <i class="fa-solid fa-plus me-2"></i>Add New Content
+    </button>
+  </div>
+  <div class="content-grid">
+    <div *ngFor="let content of contents" class="content-item" (click)="viewDetails(content._id)">
+      <div class="media-preview">
+        <div *ngIf="content.media">
+          <div *ngIf="content.media.mimetype.startsWith('image/')">
+            <img [src]="getSafeUrl(content.media.path)" alt="{{ content.title }}" class="img-fluid rounded">
+          </div>
+          <div *ngIf="content.media.mimetype.startsWith('video/')">
+            <video [src]="getSafeUrl(content.media.path)" controls class="img-fluid rounded"></video>
+          </div>
+          <div *ngIf="content.media.mimetype === 'application/pdf'">
+            <a [href]="getSafeUrl(content.media.path)" target="_blank">View PDF</a>
+          </div>
+        </div>
+      </div>
+      <div class="content-details">
+        <h5>{{ content.title }}</h5>
+        <p>{{ truncateText(content.body, 50) }}</p>
+        <a *ngIf="content.body.length > 50" (click)="viewDetails(content._id)" class="read-more">Read More</a>
+        <p class="text-muted small">Uploaded by: {{ content.uploadedBy.username |titlecase}}</p>
+        <p class="text-muted small">Uploaded at: {{ content.uploadedAt | date: 'medium' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

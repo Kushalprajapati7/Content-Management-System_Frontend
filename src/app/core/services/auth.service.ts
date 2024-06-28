@@ -1,0 +1,89 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { IUser } from '../interfaces/userInterface';
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private apiUrl = 'http://localhost:3000/api/user';
+  private token: string | null = null;
+  private tokenKey = 'auth_token';
+  private roleKey = 'auth_role';
+  private nameKey = 'userName';
+  private isAuthenticated: boolean = false;
+  private role: string = ''
+  private userName: string = '';
+  constructor(private http: HttpClient, private router: Router) { }
+
+  register(user: IUser): Observable<IUser> {
+    return this.http.post<IUser>(`${this.apiUrl}/register`, user)
+  }
+
+  loginUser(email: string, password: string): Observable<any> {
+    const body = { email, password }
+    return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
+      map(response => {
+        // console.log("Token :", response.response.token);
+        // console.log("Role :", response.response.role);
+        this.token = response.response.token;
+        this.role = response.response.role;
+        this.userName = response.response.userName;
+        if (!this.token) {
+          return
+        }
+        localStorage.setItem(this.tokenKey, this.token)
+        localStorage.setItem(this.roleKey, this.role)
+        localStorage.setItem(this.nameKey, this.userName)
+        this.isAuthenticated = true;
+
+        return response;
+      })
+    )
+  }
+
+  getToken(): string | null {
+    console.log(this.token);
+    return this.token;
+  }
+
+  isLoggedIn(): boolean {
+    console.log(this.isAuthenticated);
+    return this.isAuthenticated, !!this.token;
+  }
+
+  getHeaders(): HttpHeaders {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+    return headers;
+  }
+
+  logout() {
+    // this.token = null;
+    localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/auth/login']);
+  }
+
+  isAdmin(): boolean {
+    const storedRole = localStorage.getItem(this.roleKey);
+    return storedRole === 'admin';
+  }
+
+  getRole(): string | null {
+    const storedRole = localStorage.getItem(this.roleKey);
+    return storedRole;
+  }
+
+  getUserName(): string | null {
+    const storedUserName = localStorage.getItem(this.nameKey)
+    console.log(storedUserName);
+
+    return storedUserName;
+  }
+
+
+}

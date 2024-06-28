@@ -1,0 +1,37 @@
+<div class="container mt-4" *ngIf="content">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div>
+        <h2>{{ content.title }}</h2>
+        <p class="text-muted small">Uploaded by: {{ content.uploadedBy.username }} on {{ content.uploadedAt | date: 'medium' }}</p>
+      </div>
+      <div>
+        <button class="btn btn-warning me-2" (click)="updateContent(content)">
+          <i class="fa-solid fa-file-pen"></i> Update
+        </button>
+        <button class="btn btn-danger" (click)="deleteContent(content)">
+          <i class="fa-solid fa-trash-can"></i> Delete
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="media-preview" *ngIf="content.media">
+        <div *ngIf="content.media.mimetype.startsWith('image/')">
+          <img [src]="getSafeUrl(content.media.path)" alt="{{ content.title }}" class="img-fluid rounded mb-3">
+        </div>
+        <div *ngIf="content.media.mimetype.startsWith('video/')">
+          <video [src]="getSafeUrl(content.media.path)" controls class="img-fluid rounded mb-3"></video>
+        </div>
+        <div *ngIf="content.media.mimetype === 'application/pdf'" class="pdf-link">
+          <a [href]="getSafeUrl(content.media.path)" target="_blank">View PDF</a>
+        </div>
+      </div>
+      <p>{{ content.body }}</p>
+    </div>
+    <div class="card-footer text-muted small ">
+      Uploaded by: {{ content.uploadedBy.username | titlecase}} <br>
+      Uploaded On: {{ content.uploadedAt | date: 'medium' }}
+    </div>
+    
+  </div>
+</div>
