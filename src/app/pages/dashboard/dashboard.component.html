@@ -1,12 +1,11 @@
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-2">
   <div class="row">
-
     <div class="col-md-12">
-      <h2 class="mb-4"><i class="fa-solid fa-user-tie me-2"></i>Admin Dashboard</h2>
+      <h2><i class="fa-solid fa-user-tie me-2"></i>Admin Dashboard</h2>
 
-      <div class="row mb-4">
+      <div class="row">
         <div class="col-md-4">
-          <div class="card bg-primary text-white mb-3">
+          <div class="card bg-primary text-white">
             <div class="card-body d-flex align-items-center">
               <div class="me-3">
                 <i class="fa-solid fa-users fa-2x"></i>
@@ -19,7 +18,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card bg-success text-white mb-3">
+          <div class="card bg-success text-white">
             <div class="card-body d-flex align-items-center">
               <div class="me-3">
                 <i class="fa-regular fa-file-lines fa-2x"></i>
@@ -27,19 +26,19 @@
               <div>
                 <h5 class="card-title">Total Content</h5>
                 <p class="card-text display-5">{{totalContent}}</p>
-              </div>  
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card bg-info text-white mb-3">
+          <div class="card bg-info text-white">
             <div class="card-body d-flex align-items-center">
               <div class="me-3">
                 <i class="fa-solid fa-photo-film fa-2x"></i>
               </div>
               <div>
                 <h5 class="card-title">Total Media</h5>
-                <p class="card-text display-5">{{totalUsers}}</p>
+                <p class="card-text display-5">{{totalMedia}}</p>
               </div>
             </div>
           </div>
@@ -47,42 +46,56 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-8">
-        <div class="card mb-4">
+    <div class="row d-flex flex-nowrap">
+      <div class="col-md-8 d-flex flex-column">
+        <div class="card flex-grow-1">
           <div class="card-header bg-primary text-white">
             View Statistics
           </div>
-          <div class="card-body">
+          <div class="card-body mt-4">
             <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType"
               [legend]="barChartLegend">
             </canvas>
+
           </div>
         </div>
       </div>
 
-      <div class="col-4">
-        <div class="card">
+      <div class="col-md-4 d-flex flex-column">
+        <div class="card flex-grow-1">
           <div class="card-header bg-primary text-white">
-            Recent Content
+            Recent Media
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
-              <li *ngFor="let content of recentContent" class="list-group-item">
-                <i class="fa-solid fa-newspaper me-2"></i>{{ content.title }}
+              <li *ngFor="let media of recentMedia" class="list-group-item">
+                <i class="fa-solid fa-newspaper me-2"></i>{{ media.title }}
               </li>
             </ul>
           </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 flex-grow-1">
           <div class="card-header bg-success text-white">
             Recent Registered Users
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
-              <li *ngFor="let user of listOfUsers" class="list-group-item">
+              <li *ngFor="let user of recentUsers" class="list-group-item">
                 <i class="fa-regular fa-user me-2"></i>{{ user.username }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card flex-grow-1">
+          <div class="card-header bg-info text-white">
+            Recent Uploaded Content
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let content of recentContent" class="list-group-item">
+                <i class="fa-regular fa-file me-2"></i>{{ content.title }}
               </li>
             </ul>
           </div>

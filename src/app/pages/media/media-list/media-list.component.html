@@ -1,0 +1,32 @@
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Media List :-</h2>
+    <button class="btn btn-primary" (click)="goToAddMedia()" style="background-color: #3dc2ec;">
+      <i class="fa-solid fa-plus me-2"></i>Add New media
+    </button>
+  </div>
+  <div class="media-grid">
+    <div *ngFor="let media of medias" class="media-item" (click)="viewDetails(media._id)">
+      <div class="media-preview">
+        <div *ngIf="media.media">
+          <div *ngIf="media.media.mimetype.startsWith('image/')">
+            <img [src]="getSafeUrl(media.media.path)" alt="{{ media.title }}" class="img-fluid rounded">
+          </div>
+          <div *ngIf="media.media.mimetype.startsWith('video/')">
+            <video [src]="getSafeUrl(media.media.path)" controls class="img-fluid rounded"></video>
+          </div>
+          <div *ngIf="media.media.mimetype === 'application/pdf'">
+            <a [href]="getSafeUrl(media.media.path)" target="_blank">View PDF</a>
+          </div>
+        </div>
+      </div>
+      <div class="media-details">
+        <h5>{{ media.title }}</h5>
+        <p>{{ truncateText(media.body, 50) }}</p>
+        <a *ngIf="media.body.length > 50" (click)="viewDetails(media._id)" class="read-more">Read More</a>
+        <p class="text-muted small">Uploaded by: {{ media.uploadedBy.username |titlecase}}</p>
+        <p class="text-muted small">Uploaded at: {{ media.uploadedAt | date: 'medium' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

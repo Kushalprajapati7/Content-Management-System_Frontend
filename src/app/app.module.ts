@@ -10,10 +10,10 @@ import { LayoutModule } from './layout/layout.module';
 import { RoleGuard } from './core/guards/role.guard';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
+    
   ],
   imports: [
     LayoutModule,

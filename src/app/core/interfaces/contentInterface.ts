@@ -1,15 +1,8 @@
-export interface IContent {
-    _id: string;
+export interface IContent  {
+    content: unknown;
+    _id?:string;
     title: string;
     body: string;
-    uploadedBy: any ;
-    media: {
-      filename: string;
-      path: string;
-      mimetype: string;
-      size: number;
-    };
+    uploadedBy: any;
     uploadedAt: Date;
-    updatedAt: Date;
-  }
-  
+}

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IContent } from 'src/app/core/interfaces/contentInterface';
 import { Router } from '@angular/router';
+import { IContent } from 'src/app/core/interfaces/contentInterface';
 import { ContentService } from 'src/app/core/services/content.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-content-list',
@@ -10,42 +9,30 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./content-list.component.scss']
 })
 export class ContentListComponent implements OnInit {
-  contents: IContent[] = [];
-
+  contentList:IContent[] =[];
   constructor(
     private contentService: ContentService,
-    private sanitizer: DomSanitizer
-    , private router: Router
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.loadContents();
+this.loadContents()
   }
 
-  loadContents(): void {
+  loadContents() {
     this.contentService.showAllContent().subscribe(
-      (data: IContent[]) => {
-        this.contents = data;
-        console.log(this.contents);
+      (respose) => {
+        this.contentList = respose
       },
       (error) => {
-        console.error(error);
+        console.log(error);
+
       }
-    );
-  }
-  getSafeUrl(path: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(`http://localhost:3000/${path}`);
+    )
   }
 
-  viewDetails(id: string): void {
-    this.router.navigate(['content/contentDetails', id]);
-  }
-
-  truncateText(text: string, limit: number): string {
-    if (text.length > limit) {
-      return text.substring(0, limit) + '...';
-    }
-    return text;
+  viewDetails(contentId:any){
+    this.router.navigate(['content/contentDetails', contentId]);
   }
 
 }

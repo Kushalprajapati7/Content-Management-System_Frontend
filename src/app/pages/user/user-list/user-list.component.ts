@@ -19,15 +19,12 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUser();
-    console.log("Hello From Users");
-
   }
 
   loadUser(): void {
     this.userService.allUser().subscribe(
       (data: IUser[]) => {
         this.users = data
-        console.log(this.users);
       },
       (error) => {
         console.error(error)
@@ -42,10 +39,7 @@ export class UserListComponent implements OnInit {
     }
     this.userService.deleteUser(userId).subscribe(
       (response) => {
-        // this.users = this.users.filter((uid) => uid !== userId as any)
         this.users = this.users.filter((u) => u._id !== user._id);
-        console.log("User Deleted SuccessFully", response);
-        // this.router.navigate(['users/all-users'])
       },
       (error) => {
         console.error(error);

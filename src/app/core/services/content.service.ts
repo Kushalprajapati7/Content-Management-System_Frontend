@@ -1,23 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { IContent } from '../interfaces/contentInterface';
-import { Observable, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContentService {
-  private apiUrl = 'http://localhost:3000/api/media';
+
+  private apiUrl = 'http://localhost:3000/api/content'
   constructor(
     private http: HttpClient,
     private router: Router
   ) { }
 
   addContent(contentData: IContent): Observable<IContent> {
-    console.log(contentData, "Service");
-
-    return this.http.post<IContent>(`${this.apiUrl}/upload`, contentData)
+    return this.http.post<IContent>(`${this.apiUrl}/add`, contentData)
   }
 
   showAllContent(): Observable<IContent[]> {

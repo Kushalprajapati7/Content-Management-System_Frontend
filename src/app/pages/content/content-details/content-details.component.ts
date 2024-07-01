@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IContent } from 'src/app/core/interfaces/contentInterface';
 import { ContentService } from 'src/app/core/services/content.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-content-details',
@@ -11,13 +10,13 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class ContentDetailsComponent implements OnInit {
   content: any;
+
   constructor(
     private contentService: ContentService,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
-    private router:Router
-
+    private router: Router
   ) { }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const contentId = params['id'];
@@ -26,40 +25,35 @@ export class ContentDetailsComponent implements OnInit {
 
   }
 
+
   loadContentDetails(contentId: string) {
     this.contentService.getContentById(contentId).subscribe(
       (data: IContent) => {
         this.content = data;
-        console.log(this.content);
-
       },
       (error) => {
         console.error(error);
       }
-    );
+    )
   }
 
-  getSafeUrl(path: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(`http://localhost:3000/${path}`);
+  updateContent(content: IContent): void {
+    this.router.navigate(['content/edit-content', content._id]);
   }
 
-  deleteContent(content: any) {
-    // console.log(content,"Dele");
-    const contentId = content._id;
-    this.contentService.deleteContent(contentId).subscribe(
-      (response) => {
-        console.log("Content Deleted SuccessFully", response);
-        this.router.navigate(['content/all-content'])
+  deleteContent(content: IContent): void {
+    if (!content._id) {
+      return
+    }
+    this.contentService.deleteContent(content._id).subscribe(
+      (respose) => {
+        this.router.navigate(['content/all-content']);
       },
       (error) => {
-        console.error(error);
+        console.log(error);
+
       }
-    );
-  }
+    )
 
-  updateContent(contant:any){
-    console.log(contant,"edit");
-    this.router.navigate(['content/edit-content', contant._id]);
   }
-
 }

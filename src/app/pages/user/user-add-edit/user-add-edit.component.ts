@@ -33,8 +33,6 @@ export class UserAddEditComponent implements OnInit {
       return
     }
     this.userData.push(this.userForm.value);
-    console.log(this.userData);
-
     const user: IUser = {
       username: this.userForm.get('userName')?.value,
       email: this.userForm.get('email')?.value,
@@ -43,7 +41,6 @@ export class UserAddEditComponent implements OnInit {
     }
     this.userService.addUser(user).subscribe(
       response => {
-        console.log("User Added", response);
         this.router.navigate(['users/all-users'])
       },
       error => {

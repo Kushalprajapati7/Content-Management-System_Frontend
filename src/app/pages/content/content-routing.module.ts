@@ -15,16 +15,16 @@ const routes: Routes = [
     component: ContentListComponent
   },
   {
-    path: 'add-content',
-    component: ContentAddEditComponent
+    path:'add-content',
+    component:ContentAddEditComponent
   },
   {
-    path: 'contentDetails/:id',
-    component: ContentDetailsComponent
+    path:'edit-content/:id',
+    component:ContentAddEditComponent
   },
   {
-    path: 'edit-content/:id',
-    component: ContentAddEditComponent
+    path:'contentDetails/:id',
+    component:ContentDetailsComponent
   }
 ];
 

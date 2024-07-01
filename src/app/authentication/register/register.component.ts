@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
       return
     }
     this.formData.push(this.registerForm.value);
-    console.log(this.formData);
 
     const user: IUser = {
       username: this.registerForm.get('userName')?.value,
@@ -41,7 +40,6 @@ export class RegisterComponent implements OnInit {
     }
     this.authService.register(user).subscribe(
       response => {
-        console.log("User Registerd", response);
         this.router.navigate(['auth/login'])
       },
       error => {

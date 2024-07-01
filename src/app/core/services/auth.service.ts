@@ -26,8 +26,6 @@ export class AuthService {
     const body = { email, password }
     return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
       map(response => {
-        // console.log("Token :", response.response.token);
-        // console.log("Role :", response.response.role);
         this.token = response.response.token;
         this.role = response.response.role;
         this.userName = response.response.userName;
@@ -45,12 +43,10 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    console.log(this.token);
     return this.token;
   }
 
   isLoggedIn(): boolean {
-    console.log(this.isAuthenticated);
     return this.isAuthenticated, !!this.token;
   }
 
@@ -80,8 +76,6 @@ export class AuthService {
 
   getUserName(): string | null {
     const storedUserName = localStorage.getItem(this.nameKey)
-    console.log(storedUserName);
-
     return storedUserName;
   }
 
