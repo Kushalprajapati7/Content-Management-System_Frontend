@@ -9,13 +9,17 @@ import Swal from 'sweetalert2';
 })
 export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService) { }
-  userRole: string|null = null;
-  userName: string|null = null;
+  userRole: string | null = null;
+  userName: string | null = null;
+  isAdmin: boolean = false;
 
 
   ngOnInit(): void {
     this.getRole();
     this.getUserName();
+
+    const role = this.authService.getRole();
+    this.isAdmin = role === 'admin'
   }
 
   logOut(): void {
@@ -30,10 +34,10 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  getRole(){
+  getRole() {
     this.userRole = this.authService.getRole();
   }
-  getUserName(){
+  getUserName() {
     this.userName = this.authService.getUserName();
   }
 }

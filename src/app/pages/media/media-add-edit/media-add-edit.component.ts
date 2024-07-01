@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { IMedia } from 'src/app/core/interfaces/mediaInterface';
 import { MediaService } from 'src/app/core/services/media.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-media-add-edit',
@@ -61,6 +62,13 @@ export class MediaAddEditComponent implements OnInit {
 
       this.mediaService.addMedia(formData as any).subscribe(
         response => {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Media Added Successfully",
+            showConfirmButton: false,
+            timer: 1000
+          });
           this.router.navigate(['media/all-media']);
         },
         error => {
@@ -91,6 +99,13 @@ export class MediaAddEditComponent implements OnInit {
 
       this.mediaService.updateMedia(this.mediaId, formData as any).subscribe(
         response => {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Media Updated Successfully",
+            showConfirmButton: false,
+            timer: 1000
+          });
           this.router.navigate(['media/all-media']);
         },
         error => {

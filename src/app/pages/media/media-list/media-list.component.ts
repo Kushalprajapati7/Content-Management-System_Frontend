@@ -3,6 +3,7 @@ import { IMedia } from 'src/app/core/interfaces/mediaInterface';
 import { Router } from '@angular/router';
 import { MediaService } from 'src/app/core/services/media.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-media-list',
@@ -11,15 +12,21 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class MediaListComponent implements OnInit {
   medias: IMedia[] = [];
-
+  canAdd: boolean = false;
   constructor(
     private mediaService: MediaService,
     private sanitizer: DomSanitizer
-    , private router: Router
+    , private router: Router,
+    private authService:AuthService
   ) { }
 
   ngOnInit(): void {
     this.loadMedias();
+
+    
+    const role = this.authService.getRole();
+    this.canAdd= role === 'admin' || role ==='editor';
+
   }
 
   loadMedias(): void {

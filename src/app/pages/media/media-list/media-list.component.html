@@ -1,7 +1,7 @@
 <div class="container-fluid mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Media List :-</h2>
-    <button class="btn btn-primary" (click)="goToAddMedia()" style="background-color: #3dc2ec;">
+    <button *ngIf="canAdd" class="btn btn-primary" (click)="goToAddMedia()" style="background-color: #3dc2ec;">
       <i class="fa-solid fa-plus me-2"></i>Add New media
     </button>
   </div>

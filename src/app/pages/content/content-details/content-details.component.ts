@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IContent } from 'src/app/core/interfaces/contentInterface';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ContentService } from 'src/app/core/services/content.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-content-details',
@@ -9,12 +11,15 @@ import { ContentService } from 'src/app/core/services/content.service';
   styleUrls: ['./content-details.component.scss']
 })
 export class ContentDetailsComponent implements OnInit {
-  content: any;
+  content!: IContent;
+  canEdit: boolean = false;
+  canDelete: boolean = false;
 
   constructor(
     private contentService: ContentService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -22,6 +27,12 @@ export class ContentDetailsComponent implements OnInit {
       const contentId = params['id'];
       this.loadContentDetails(contentId);
     });
+
+    const role = this.authService.getRole();
+    this.canDelete = role === 'admin';
+    this.canEdit = role === 'admin' || role === 'editor';
+    console.log(this.canDelete);
+
 
   }
 
@@ -47,6 +58,13 @@ export class ContentDetailsComponent implements OnInit {
     }
     this.contentService.deleteContent(content._id).subscribe(
       (respose) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Content Deleted Successfully",
+          showConfirmButton: false,
+          timer: 1000
+        });
         this.router.navigate(['content/all-content']);
       },
       (error) => {

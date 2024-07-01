@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IContent } from 'src/app/core/interfaces/contentInterface';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ContentService } from 'src/app/core/services/content.service';
 
 @Component({
@@ -9,14 +10,18 @@ import { ContentService } from 'src/app/core/services/content.service';
   styleUrls: ['./content-list.component.scss']
 })
 export class ContentListComponent implements OnInit {
-  contentList:IContent[] =[];
+  contentList: IContent[] = [];
+  canAdd: boolean = false;
   constructor(
     private contentService: ContentService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-this.loadContents()
+    this.loadContents()
+    const role = this.authService.getRole();
+    this.canAdd = role === 'admin' || role === 'editor';
   }
 
   loadContents() {
@@ -31,7 +36,7 @@ this.loadContents()
     )
   }
 
-  viewDetails(contentId:any){
+  viewDetails(contentId: any) {
     this.router.navigate(['content/contentDetails', contentId]);
   }
 

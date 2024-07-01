@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/core/interfaces/userInterface';
 import { UserService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-add-edit',
@@ -41,6 +42,13 @@ export class UserAddEditComponent implements OnInit {
     }
     this.userService.addUser(user).subscribe(
       response => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "User Added Successfully",
+          showConfirmButton: false,
+          timer: 1000
+        });
         this.router.navigate(['users/all-users'])
       },
       error => {

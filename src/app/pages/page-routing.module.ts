@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { RoleGuard } from '../core/guards/role.guard';
 import { MediaListComponent } from './media/media-list/media-list.component';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,21 +14,23 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [RoleGuard]
+    canActivate: [RoleGuard],
+    data: { role: 'admin' }
   },
   {
-    path:'media',
-    loadChildren:()=>import('./media/media.module').then(m=>m.MediaModule)
+    path: 'media',
+    loadChildren: () => import('./media/media.module').then(m => m.MediaModule),
+    // canActivate: [AuthGuard]
   },
   {
     path: 'users',
     loadChildren: () => import('./user/user.module').then(m => m.UserModule),
-    canActivate: [RoleGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'content',
     loadChildren: () => import('./content/content.module').then(m => m.ContentModule),
-    // canActivate: [RoleGuard]
+    // canActivate: [AuthGuard]
   }
 
 ];

@@ -6,10 +6,10 @@
         <p class="text-muted small">Uploaded by: {{ media.uploadedBy.username }} on {{ media.uploadedAt | date: 'medium' }}</p>
       </div>
       <div>
-        <button class="btn btn-warning me-2" (click)="updateMedia(media)">
+        <button *ngIf="canEdit" class="btn btn-warning me-2" (click)="updateMedia(media)">
           <i class="fa-solid fa-file-pen"></i> Update
         </button>
-        <button class="btn btn-danger" (click)="deleteMedia(media)">
+        <button *ngIf="canDelete"  class="btn btn-danger" (click)="deleteMedia(media)">
           <i class="fa-solid fa-trash-can"></i> Delete
         </button>
       </div>
