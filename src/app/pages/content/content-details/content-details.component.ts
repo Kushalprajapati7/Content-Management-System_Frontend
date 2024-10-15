@@ -31,8 +31,6 @@ export class ContentDetailsComponent implements OnInit {
     const role = this.authService.getRole();
     this.canDelete = role === 'admin';
     this.canEdit = role === 'admin' || role === 'editor';
-    console.log(this.canDelete);
-
 
   }
 

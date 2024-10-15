@@ -17,6 +17,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             errorMessage = error.error.message;
           } else {
             switch (error.status) {
+              case 0:
+                errorMessage = 'Network error or Server issue';
+                break;
               case 400:
                 errorMessage = 'Bad Request';
                 break;
